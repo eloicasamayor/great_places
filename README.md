@@ -1,10 +1,8 @@
 # great_places
 
-A new Flutter project.
+A Flutter app with native device features.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
+This project was developed following a section in the ["Flutter & Dart - The Complete Guide [2021 Edition]"](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/)
 
 ## Working with Files
 For working with the File type, we have to import the dart.io package
@@ -19,7 +17,7 @@ We can define a Location, for example, with a custom class that contains:
 - String Adress
 
 ## Opening the camera and taking a picture
-We can use the package (image_picker)[https://pub.dev/packages/image_picker]
+We can use the package [image_picker](https://pub.dev/packages/image_picker)
 ```dart
 import 'package:image_picker/image_picker.dart';
 ```
@@ -42,4 +40,5 @@ File _storedImage;
 ```
 
 ## Store the image
-We use the (path_provider package)[https://pub.dev/packages/path_provider] and the (path package)[https://pub.dev/packages/path]
+- The [path_provider package](https://pub.dev/packages/path_provider) helps us to find the OS path where to save the data
+- and the [path package](https://pub.dev/packages/path) helps us to combining paths.
