@@ -9,6 +9,7 @@ For working with the File type, we have to import the dart.io package
 ```dart
 import 'dart:io';
 ```
+To create a File object, we just call **File()** and provide the path of the file
 
 ## Working with Locations
 We can define a Location, for example, with a custom class that contains:
@@ -83,3 +84,6 @@ Then, we siply use this url in an Image.Network() widget.
 
 ## Render a dinamic Google Maps
 We can use the official [Google Maps Flutter package](https://pub.dev/packages/google_maps_flutter/install)
+
+## Sets
+Sets in dart are like lists but the **items cannot be repeated**. We define sets between curly braces (like maps)
