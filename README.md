@@ -4,6 +4,8 @@ A Flutter app with native device features.
 
 This project was developed following a section in the ["Flutter & Dart - The Complete Guide [2021 Edition]"](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/)
 
+> Note: this projects is using a protected Google Maps API key. You should change the API key it in case you want to run it.
+
 ## Working with Files
 For working with the File type, we have to import the dart.io package
 ```dart
