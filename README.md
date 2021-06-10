@@ -39,35 +39,60 @@ File _storedImage;
     });
   }
 ```
-
-## Store the image
-- The [path_provider package](https://pub.dev/packages/path_provider) helps us to find the OS path where to save the data
+## Store files in the device
+- The [path_provider package](https://pub.dev/packages/path_provider) helps us to find the OS path where to save the data.
 - and the [path package](https://pub.dev/packages/path) helps us to combining paths.
-
-## Store the data in a local DB
-We can use SQLite as it is suported in Android and iOS, for this project we use the [sqflite](https://pub.dev/packages/sqflite) package.
-- sqflite.getDatabasesPath(): returns the folder in the device where to store the db.
-- sqflite.openDatabase(): returns a handle to the database. we provide:
-  - the complete path to the db (path + db name)
-  - onCreate: a function that will run if sqflite tries to open the db and doesn't find the file. Sqflite gives the function two arguments: the db and the version, and in the body we can tell sqflite to create the DB and return the resulting Future.
-  - version: the num verion of the db.
-- sqlDb.insert() method for inserting data to the db.
-Of course **the map passed as the data argument have to match the SQL schema of the table we want to affect**.
 ```dart
-static Future<void> insert(String table, Map<String, Object> data) async {
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspaths;
+
+//imageFile.path -> temporary directory
+final appDir = await syspaths.getApplicationDocumentsDirectory();
+final fileName = path.basename(imageFile.path);
+final savedImage = await imageFile.copy('${appDir.path}/${fileName}');
+```
+
+## using a local DB: SQLite
+We can use SQLite as it is suported in Android and iOS, for this project we use the [sqflite](https://pub.dev/packages/sqflite) package.
+```dart
+import 'package:sqflite/sqflite.dart' as sql;
+```
+**sql.getDatabasesPath()**: returns the folder in the device where to store the db.
+**sql.openDatabase()**: returns a handle to the database. we provide:
+- the complete path to the db (path + db name)
+- onCreate: a function that will run if sqflite tries to open the db and doesn't find the file. Sqflite gives the function two arguments: the db and the version, and in the body we can tell sqflite to create the DB and return the resulting Future.
+- version: the num verion of the db.
+```dart
+  static Future<sql.Database> database() async {
     final dbPath = await sql.getDatabasesPath();
-    final sqlDb = await sql.openDatabase(
+    return sql.openDatabase(
       path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
-        return db.execute('CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT');
+        return db.execute(
+            'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lng REAL, address TEXT)');
       },
       version: 1,
     );
-    await sqlDb.insert(
+  }
+```
+**db.insert()** method for inserting data to the db.
+Of course **the map passed as the data argument have to match the SQL schema of the table we want to affect**.
+```dart
+  static Future<void> insert(String table, Map<String, Object> data) async {
+    final db = await DBHelper.database();
+    db.insert(
       table,
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
+  }
+```
+**db.query()**: method to data grom the db.
+
+```dart
+  static Future<List<Map<String, dynamic>>> getData(String table) async {
+    final db = await DBHelper.database();
+    return db.query(table);
   }
 ```
 
@@ -84,6 +109,27 @@ Then, we siply use this url in an Image.Network() widget.
 
 ## Render a dinamic Google Maps
 We can use the official [Google Maps Flutter package](https://pub.dev/packages/google_maps_flutter/install)
-
-## Sets
-Sets in dart are like lists but the **items cannot be repeated**. We define sets between curly braces (like maps)
+There is a GoogleMap widget, we might provide
+- a initialCameraPosition with the target LatLng(lat,lng) and the zoom
+- an onTap function (it gets the LatLng of the tap)
+- a list of Markers
+```dart
+GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: LatLng(
+            widget.initialLocation.latitude,
+            widget.initialLocation.longitude,
+          ),
+          zoom: 18,
+        ),
+        onTap: widget.isSelecting ? _selectLocation : null,
+        markers: _pickedLocation == null
+            ? {}
+            : {
+                Marker(
+                  markerId: MarkerId('m1'),
+                  position: _pickedLocation,
+                )
+              },
+      ),
+```
