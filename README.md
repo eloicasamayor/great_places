@@ -11,12 +11,6 @@ import 'dart:io';
 ```
 To create a File object, we just call **File()** and provide the path of the file
 
-## Working with Locations
-We can define a Location, for example, with a custom class that contains:
-- double Latitude
-- double Longitude
-- String Adress
-
 ## Opening the camera and taking a picture
 We can use the package [image_picker](https://pub.dev/packages/image_picker)
 ```dart
@@ -95,9 +89,13 @@ Of course **the map passed as the data argument have to match the SQL schema of 
     return db.query(table);
   }
 ```
-
 ## Show a map preview image
-We can use the [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static) to get an image of a map giving a location. It's a paid service, but there is a free tier under certain usage.
+To get the device current location we can use the [location package](https://pub.dev/packages/location). getLocation() method returns the location data.
+```dart
+import 'package:location/location.dart';
+final locData = await Location().getLocation();
+````
+Then, we can use the [Google Maps Static API](https://developers.google.com/maps/documentation/maps-static) to get an image of a map giving a location. It's a paid service, but there is a free tier under certain usage.
 To get it, we only have to configure the google cloud account, get the API_KEY, and we get an url image that can depend on the location.
 ```dart
   static String generateLocationPreviewImage(
