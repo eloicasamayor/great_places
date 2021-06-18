@@ -6,6 +6,8 @@ This project was developed following a section in the ["Flutter & Dart - The Com
 
 > Note: this projects is using a protected Google Maps API key. You should change the API key it in case you want to run it.
 
+![The app running on an Android phone](https://github.com/eloicasamayor/great_places/blob/main/readme_assets/places_recording.gif)
+
 ## Working with Files
 For working with the File type, we have to import the dart.io package
 ```dart
