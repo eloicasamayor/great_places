@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 import 'dart:convert';
 
 const GOOGLE_API_KEY = 'AIzaSyCSiF402IT7sNsgf7_4DvtcAl82ouwMagA';

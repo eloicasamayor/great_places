@@ -41,20 +41,29 @@ class PlacesListScreen extends StatelessWidget {
                         itemBuilder: (ctx, i) {
                           final _title = greatPlaces.items[i].title;
                           print('index = $i //title = $_title');
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: FileImage(
-                                greatPlaces.items[i].image,
+                          return Card(
+                            elevation: 0,
+                            margin: EdgeInsets.symmetric(vertical: 1),
+                            child: ListTile(
+                              minVerticalPadding: 18,
+                              leading: CircleAvatar(
+                                radius: 23,
+                                backgroundImage: FileImage(
+                                  greatPlaces.items[i].image,
+                                ),
                               ),
+                              title: Text(
+                                greatPlaces.items[i].title,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              subtitle:
+                                  Text(greatPlaces.items[i].location.address),
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    PlaceDetailScreen.routeName,
+                                    arguments: greatPlaces.items[i].id);
+                              },
                             ),
-                            title: Text(greatPlaces.items[i].title),
-                            subtitle:
-                                Text(greatPlaces.items[i].location.address),
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                  PlaceDetailScreen.routeName,
-                                  arguments: greatPlaces.items[i].id);
-                            },
                           );
                         },
                       ),

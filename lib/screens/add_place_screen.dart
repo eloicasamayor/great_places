@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import '../providers/great_places.dart';
 import '../models/place.dart';
-import '../helpers/location_helper.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -72,13 +71,21 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               ),
             ),
           ),
-          RaisedButton.icon(
+          TextButton.icon(
             onPressed: _savePlace,
             icon: Icon(Icons.add),
             label: Text('Add place'),
-            elevation: 0,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Theme.of(context).accentColor,
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(Theme.of(context).accentColor),
+              padding: MaterialStateProperty.all(EdgeInsets.all(18)),
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              shape: MaterialStateProperty.all(
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
+                ),
+              ),
+            ),
           ),
         ],
       ),

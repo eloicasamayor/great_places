@@ -81,11 +81,11 @@ class _LocationInputState extends State<LocationInput> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton.icon(
+            TextButton.icon(
                 onPressed: _getCurrentUserLocation,
                 icon: Icon(Icons.location_on),
                 label: Text('Current Location')),
-            FlatButton.icon(
+            TextButton.icon(
                 onPressed: _selectOnMap,
                 icon: Icon(Icons.map),
                 label: Text('Select on map')),

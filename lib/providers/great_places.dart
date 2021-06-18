@@ -54,6 +54,13 @@ class GreatPlaces with ChangeNotifier {
     });
   }
 
+  Future<void> remove(String id) async {
+    _items.removeWhere((element) => element.id == id);
+
+    notifyListeners();
+    DBHelper.remove('user_places', id);
+  }
+
   Future<void> fetchAndSetPlaces() async {
     final dataList = await DBHelper.getData('user_places');
     _items = dataList
